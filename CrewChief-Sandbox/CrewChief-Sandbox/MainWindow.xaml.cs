@@ -52,54 +52,63 @@ namespace CrewChief_Sandbox
         {
             this.isUpdatingDrivers = true;
 
-            ParseWeather(e.SessionInfo);
+            
 
             this.isUpdatingDrivers = false;
         }
 
         private void OnTelemetryUpdated(object sender, SdkWrapper.TelemetryUpdatedEventArgs e)
         {
-
+            ParseWeather(e.TelemetryInfo);
         }
 
-        private void ParseWeather(SessionInfo sessionInfo)
+        private void ParseWeather(TelemetryInfo TelemetryInfo)
         {
 
-            sessionInfoTextBox.Text = e.SessionInfo;
-            sessionInfoLabel.Text = string.Format("Session info: (updated @ session time {0})", e.UpdateTime);
-
-            Weather weather = new Weather();
+            Weather weather = new Weather(wrapper.GetTelemetryValue<int>("Skies").Value,
+                wrapper.GetTelemetryValue<float>("AirTemp").Value,
+                wrapper.GetTelemetryValue<float>("AirPressure").Value,
+                wrapper.GetTelemetryValue<float>("WindVel").Value,
+                wrapper.GetTelemetryValue<float>("WindDir").Value,
+                wrapper.GetTelemetryValue<float>("RelativeHumidity").Value,
+                wrapper.GetTelemetryValue<float>("FogLevel").Value);
             // Instantiate an instance of Weather class
 
             var newWeather = new List<Weather>();
             // Create a local list newWeather
 
-            YamlQuery query = sessionInfo["Weekendinfo"]["WeekendOptions"];
-            weather.SessionID = int.Parse(query["SessionID"].GetValue("0"));
-            weather.AirPressure = float.Parse(query["AirPressure"].GetValue("0"));
-            weather.Skies = query["Skies"].GetValue("0");
-            weather.AirTemp = float.Parse(query["AirTemp"].GetValue("0"));
-            weather.AirPressure = float.Parse(query["AirPressure"].GetValue("0"));
-            weather.WindVel = float.Parse(query["WindVel"].GetValue("0"));
-            weather.WindDir = float.Parse(query["WindDir"].GetValue("0"));
-            weather.RelativeHumidity = int.Parse(query["RelativeHumidity"].GetValue("0"));
-            weather.FogLevel = int.Parse(query["FogLevel"].GetValue("0"));
+            newWeather.Add(new Weather(weather.Skies, weather.AirTemp,weather.AirPressure,
+                weather.WindVel,weather.WindDir,weather.RelativeHumidity,weather.FogLevel));
+
+            weather.AirPressure = wrapper.GetTelemetryValue<float>("AirPressure").Value;
+            weather.Skies = wrapper.GetTelemetryValue<int>("Skies").Value;
+            weather.AirTemp = wrapper.GetTelemetryValue<float>("AirTemp").Value;
+            weather.WindVel = wrapper.GetTelemetryValue<float>("WindVel").Value;
+            weather.WindDir = wrapper.GetTelemetryValue<float>("WindDir").Value;
+            weather.RelativeHumidity = wrapper.GetTelemetryValue<float>("RelativeHumidity").Value;
+            weather.FogLevel = wrapper.GetTelemetryValue<float>("FogLevel").Value;
 
             newWeather.Add(weather);
-
-            Debug.WriteLine("weather.SessionID: {0}\n", weather.SessionID);
-            Debug.WriteLine("weather.Skies: {0}\n", weather.Skies);
-            Debug.WriteLine("weather.AirTemp: {0}\n", weather.AirTemp);
-            Debug.WriteLine("weather.WindVel: {0}\n", weather.WindVel);
-
-
             // Add data to list newWeather
 
-            // listWeather.Clear();
+            foreach(Weather _weather in weather)
+            {
+
+
+            }
+
+            //listWeather.Clear();
             // Clear listWeather
 
-            // listWeather.AddRange(newWeather);
+            //listWeather.AddRange(newWeather);
             // Copy newWeather to listWeather
+
+            weatherTextBox.Text = string.Format("Current Conditions\nCloud Cover: {0}\n" +
+                "Air Temperature: {1}\n" +
+                "Wind Direction: {2}\n" +
+                "Wind Velocity: {3}\n" +
+                "Relative Humidity: {4}\n" +
+                "Fog Level: {5}\n", weather.Skies,weather.AirTemp,weather.WindDir,weather.WindVel,weather.RelativeHumidity,weather.FogLevel);
 
             //weatherGrid.DataSource = weather;
 
@@ -109,19 +118,9 @@ namespace CrewChief_Sandbox
 
             // var list = new BindingList<Weather>(weather);
             //myGrid.DataSource = list;
-        }
 
-        private void startButton_Click(object sender, EventArgs e)
-        {
-            if (wrapper.IsRunning)
-            {
-                wrapper.Stop();
-                startButton.Text = "Start";
-            }
-            else
-            {
-                wrapper.Start();
-                startButton.Text = "Stop";
-            }
+
+
         }
+    }
 }

@@ -8,39 +8,23 @@ namespace CrewChief_Sandbox
 {
     class Weather
     {
-        public int SessionID { get; set; }
-        public string Skies { get; set; }
-
-        private float _airTemp;
-        public float AirTemp // Celcius
-        {
-            get
-            {
-                return _airTemp;
-            }
-            set
-            {
-                Math.Round(_airTemp = AirTemp * 1.8f + 32);
-            }
-        }
-
+        public int Skies { get; set; } // 0=clear - 1=partly cloudy - 2=mostly cloudy - 3=overcast)
+        public float AirTemp { get; set; }
         public float AirPressure { get; set; } // inches of mercury
-
-        private float _windVel;
-        public float WindVel  // meters / second
-        {
-            get
-            {
-                return _windVel;
-            }
-            set
-            {
-                _windVel = (float)Math.Round(WindVel * 2.27273f); // Convert mertes / second to MPH
-            }
-        }
-
+        public float WindVel { get; set; }
         public float WindDir { get; set; } // radians
-        public int RelativeHumidity { get; set; } // percentage
-        public int FogLevel { get; set; } // percentage
+        public float RelativeHumidity { get; set; } // percentage
+        public float FogLevel { get; set; } // percentage
+
+        public Weather(int Skies, float AirTemp, float AirPressure, float WindVel, float WindDir, float RelativeHumidity, float FodLevel)
+        {
+            this.Skies = Skies;
+            this.AirTemp = AirTemp;
+            this.AirPressure = AirPressure;
+            this.WindVel = WindVel;
+            this.WindDir = WindDir;
+            this.RelativeHumidity = RelativeHumidity;
+            this.FogLevel = FogLevel;
+        }
     }
 }

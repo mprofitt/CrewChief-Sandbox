@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CrewChief_Sandbox"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="440.625" Width="525">
     <Grid>
-        
+        <TextBox x:Name="weatherTextBox" HorizontalAlignment="Left" Height="140" Margin="19,20,0,0" TextWrapping="Wrap" Text="Updating Weather..." VerticalAlignment="Top" Width="248"/>
     </Grid>
 </Window>
