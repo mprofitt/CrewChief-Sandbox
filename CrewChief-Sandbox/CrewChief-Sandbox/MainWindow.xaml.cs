@@ -13,24 +13,20 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using iRacingSdkWrapper;
+using System.Diagnostics;
 
 namespace CrewChief_Sandbox
 {
-    private readonly SdkWrapper wrapper;
-
-    private List<Weather> listWeather;
-    // Instantiate an instance of List class
-
-    private bool isUpdatingDrivers;
-
-
-
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly SdkWrapper wrapper;
+        private List<Weather> listWeather;
+        private bool isUpdatingDrivers;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -68,13 +64,17 @@ namespace CrewChief_Sandbox
 
         private void ParseWeather(SessionInfo sessionInfo)
         {
+
+            sessionInfoTextBox.Text = e.SessionInfo;
+            sessionInfoLabel.Text = string.Format("Session info: (updated @ session time {0})", e.UpdateTime);
+
             Weather weather = new Weather();
             // Instantiate an instance of Weather class
 
             var newWeather = new List<Weather>();
             // Create a local list newWeather
 
-            YamlQuery query = sessionInfo["Weekendinfo"];
+            YamlQuery query = sessionInfo["Weekendinfo"]["WeekendOptions"];
             weather.SessionID = int.Parse(query["SessionID"].GetValue("0"));
             weather.AirPressure = float.Parse(query["AirPressure"].GetValue("0"));
             weather.Skies = query["Skies"].GetValue("0");
@@ -86,6 +86,13 @@ namespace CrewChief_Sandbox
             weather.FogLevel = int.Parse(query["FogLevel"].GetValue("0"));
 
             newWeather.Add(weather);
+
+            Debug.WriteLine("weather.SessionID: {0}\n", weather.SessionID);
+            Debug.WriteLine("weather.Skies: {0}\n", weather.Skies);
+            Debug.WriteLine("weather.AirTemp: {0}\n", weather.AirTemp);
+            Debug.WriteLine("weather.WindVel: {0}\n", weather.WindVel);
+
+
             // Add data to list newWeather
 
             // listWeather.Clear();
@@ -103,5 +110,18 @@ namespace CrewChief_Sandbox
             // var list = new BindingList<Weather>(weather);
             //myGrid.DataSource = list;
         }
-    }
+
+        private void startButton_Click(object sender, EventArgs e)
+        {
+            if (wrapper.IsRunning)
+            {
+                wrapper.Stop();
+                startButton.Text = "Start";
+            }
+            else
+            {
+                wrapper.Start();
+                startButton.Text = "Stop";
+            }
+        }
 }

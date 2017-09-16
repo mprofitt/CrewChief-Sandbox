@@ -44,5 +44,3 @@ namespace CrewChief_Sandbox
         public int FogLevel { get; set; } // percentage
     }
 }
-
-}
