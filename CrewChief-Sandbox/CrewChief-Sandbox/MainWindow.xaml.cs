@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using iRacingSdkWrapper;
 using System.Diagnostics;
+using iRacingSimulator;
 
 namespace CrewChief_Sandbox
 {
@@ -26,6 +27,12 @@ namespace CrewChief_Sandbox
         public MainWindow()
         {
             InitializeComponent();
+
+            Sim.Instance.SessionInfoUpdated += OnSessionInfoUpdated;
+            Sim.Instance.TelemetryUpdated += OnTelemetryUpdated;
+            Sim.Instance.Connected += wrapper_Connected;
+            Sim.Instance.Disconnected += wrapper_Disconnected;
+            Sim.Instance.Start();
 
         }
         private void wrapper_Connected(object sender, EventArgs e)
