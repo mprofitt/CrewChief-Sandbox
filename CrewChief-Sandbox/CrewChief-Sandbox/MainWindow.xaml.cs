@@ -63,7 +63,7 @@ namespace CrewChief_Sandbox
             _sessionData.Update(e.TelemetryInfo);
 
             Driver _driver = new Driver();
-            _driver 
+            Debug.WriteLine("Car {0}\n",_driver.Car);
             
         }
 
