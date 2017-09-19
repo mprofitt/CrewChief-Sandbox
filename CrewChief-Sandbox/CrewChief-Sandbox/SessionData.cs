@@ -75,6 +75,7 @@ namespace iRacingSimulator
             this.SessionTime = telemetry.SessionTime.Value;
             this.TimeRemaining = telemetry.SessionTimeRemain.Value;
             this.Flags = telemetry.SessionFlags.Value;
+
         }
 
         public void UpdateState(SessionStates state)

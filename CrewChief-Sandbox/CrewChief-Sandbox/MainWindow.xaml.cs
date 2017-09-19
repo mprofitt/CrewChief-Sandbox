@@ -15,6 +15,8 @@ using System.Windows.Shapes;
 using iRacingSdkWrapper;
 using System.Diagnostics;
 using iRacingSimulator;
+using iRacingSimulator.Drivers;
+using iRacingSimulator.Events;
 
 namespace CrewChief_Sandbox
 {
@@ -47,12 +49,22 @@ namespace CrewChief_Sandbox
 
         private void OnSessionInfoUpdated(object sender, SdkWrapper.SessionInfoUpdatedEventArgs e)
         {
+            SessionData _sessionData = new SessionData();
+
+            _sessionData.Update(e.SessionInfo);
+ 
+            
 
         }
 
         private void OnTelemetryUpdated(object sender, SdkWrapper.TelemetryUpdatedEventArgs e)
         {
+            SessionData _sessionData = new SessionData();
+            _sessionData.Update(e.TelemetryInfo);
 
+            Driver _driver = new Driver();
+            _driver 
+            
         }
 
         private void ParseWeather(TelemetryInfo TelemetryInfo)
