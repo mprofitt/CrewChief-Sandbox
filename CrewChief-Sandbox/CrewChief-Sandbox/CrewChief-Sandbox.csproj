@@ -81,7 +81,6 @@
     <Compile Include="TimeDelta.cs" />
     <Compile Include="Track.cs" />
     <Compile Include="TrackConditions.cs" />
-    <Compile Include="Weather.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

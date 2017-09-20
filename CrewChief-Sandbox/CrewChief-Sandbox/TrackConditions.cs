@@ -44,7 +44,7 @@ namespace iRacingSimulator
         public static readonly int MaxWindSpeedKph = (int) WindToKph(MaxWindSpeedMph);
 
 
-        public void ParseWeatherTelemetry(TelemetryInfo e)
+        public void UpdateWeatherTelemetry(TelemetryInfo e)
         {
             this.WeatherType = e.WeatherType.Value;
             this.AirDensity = e.AirDensity.Value;
@@ -58,11 +58,12 @@ namespace iRacingSimulator
             this.WindVel = e.WindVel.Value;
             this.TrackUsage = e.TrackUsage.Value;
             this.MarbleCleanup = e.MarbleCleanup.Value;
-
-
-            // TODO: add remaining parameters
         }
 
+        ParseWeatherSessionData(SessionInfo e)
+        {
+
+        }
 
 
 
