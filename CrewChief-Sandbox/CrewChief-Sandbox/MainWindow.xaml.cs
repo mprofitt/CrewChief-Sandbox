@@ -17,6 +17,8 @@ using System.Diagnostics;
 using iRacingSimulator;
 using iRacingSimulator.Drivers;
 using iRacingSimulator.Events;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace CrewChief_Sandbox
 {
@@ -26,9 +28,16 @@ namespace CrewChief_Sandbox
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        private ObservableCollection<Driver> _drivers;
+        private ICollectionView _view;
+
         public MainWindow()
         {
             InitializeComponent();
+
+            // Initialize the grid
+            this.SetupGrid();
 
             Sim.Instance.SessionInfoUpdated += OnSessionInfoUpdated;
             Sim.Instance.TelemetryUpdated += OnTelemetryUpdated;
@@ -37,6 +46,25 @@ namespace CrewChief_Sandbox
             Sim.Instance.Start();
 
         }
+
+        private void SetupGrid()
+        {
+            // Create a new observable collection of drivers
+            _drivers = new ObservableCollection<Driver>();
+
+            // Create a new collectionview to bind to the grid
+            _view = CollectionViewSource.GetDefaultView(_drivers);
+
+            // Bind it to the grid
+            grid.ItemsSource = _view;
+        }
+
+        private void RefreshGrid()
+        {
+            // Might not be necessary at all due to use of ObservableCollection which automatically notifies grid of changes
+            _view.Refresh();
+        }
+
         private void wrapper_Connected(object sender, EventArgs e)
         {
             Debug.WriteLine("*** wrapper connected ***\n");
@@ -49,27 +77,36 @@ namespace CrewChief_Sandbox
 
         private void OnSessionInfoUpdated(object sender, SdkWrapper.SessionInfoUpdatedEventArgs e)
         {
-            SessionData _sessionData = new SessionData();
+            // Update the list of drivers: simply clear the old list and re-fill it with the drivers from iRacingSimulator
+            _drivers.Clear();
 
-            _sessionData.Update(e.SessionInfo);
- 
-            
+            // ObservableCollection does not support AddRange so we just call Add in a loop
+            // Note: this is probably not a good idea as it notifies the grid of updates for every driver, rather than just once
+            foreach (var driver in Sim.Instance.Drivers)
+            {
+                _drivers.Add(driver);
+            }
+
+            // Update the grid
+            this.RefreshGrid();
 
         }
 
         private void OnTelemetryUpdated(object sender, SdkWrapper.TelemetryUpdatedEventArgs e)
         {
-            SessionData _sessionData = new SessionData();
-            _sessionData.Update(e.TelemetryInfo);
+            // No need to do anything here in this example, but you can access all telemetry:
+            double sessionTime = e.TelemetryInfo.SessionTime.Value;
 
-            Driver _driver = new Driver();
-            Debug.WriteLine("Car {0}\n",_driver.Car);
-            
+            this.RefreshGrid();
         }
 
-        private void ParseWeather(TelemetryInfo TelemetryInfo)
+        private void OnRaceEvent(object sender, Sim.RaceEventArgs e)
         {
-
+            if (e.Event.Type == RaceEvent.EventTypes.DriverSwap)
+            {
+                var swapEvent = (DriverSwapRaceEvent)e.Event;
+                MessageBox.Show(string.Format("Driver {0} replaced driver {1}.", swapEvent.PreviousDriverName, swapEvent.CurrentDriverName));
+            }
         }
     }
 }
