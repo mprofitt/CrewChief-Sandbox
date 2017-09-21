@@ -3,6 +3,7 @@ using System.Linq;
 using iRacingSdkWrapper;
 using iRacingSdkWrapper.Bitfields;
 using iRacingSimulator.Drivers;
+using System.Diagnostics;
 
 namespace iRacingSimulator
 {
@@ -48,6 +49,9 @@ namespace iRacingSimulator
 
         public void Update(SessionInfo info)
         {
+            Debug.WriteLine("***SessionData.Update Called***\n");
+
+
             this.Track = Track.FromSessionInfo(info);
 
             var weekend = info["WeekendInfo"];

@@ -17,7 +17,6 @@
                 <DataGridTextColumn Binding="{Binding PitInfo.LastPitLaneTimeSeconds}" Header="Last pitstop" />
                 <DataGridTextColumn Binding="{Binding CurrentResults.SectorsDisplay}" Header="Sectors" />
                 <DataGridTextColumn Binding="{Binding Live.Gear}" Header="Gear" />
-                <DataGridTextColumn Binding="{Binding TrackConditions.DefaultFogLevel}" Header="Fog" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

@@ -30,6 +30,7 @@ namespace CrewChief_Sandbox
     {
 
         private ObservableCollection<Driver> _drivers;
+        private ObservableCollection<TrackConditions> _weather;
         private ICollectionView _view;
 
         public MainWindow()
@@ -51,9 +52,11 @@ namespace CrewChief_Sandbox
         {
             // Create a new observable collection of drivers
             _drivers = new ObservableCollection<Driver>();
+            _weather = new ObservableCollection<TrackConditions>();
 
             // Create a new collectionview to bind to the grid
-            _view = CollectionViewSource.GetDefaultView(_drivers);
+            //_view = CollectionViewSource.GetDefaultView(_drivers);
+            _view = CollectionViewSource.GetDefaultView(_weather);
 
             // Bind it to the grid
             grid.ItemsSource = _view;

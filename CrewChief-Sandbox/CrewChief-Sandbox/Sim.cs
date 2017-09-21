@@ -485,8 +485,6 @@ namespace iRacingSimulator
             // Update session data
             this.SessionData.Update(e.TelemetryInfo);
 
-            // Update Weather Telemetry
-            UpdateWeatherTelemetry(e.TelemetryInfo);
 
             // Check if flags updated
             this.CheckSessionFlagUpdates(prevFlags, this.SessionData.Flags);
@@ -509,10 +507,6 @@ namespace iRacingSimulator
             this.OnTelemetryUpdated(e);
         }
 
-        private void UpdateWeatherTelemetry(TelemetryInfo telemetryInfo)
-        {
-            throw new NotImplementedException();
-        }
 
         private void SdkOnDisconnected(object sender, EventArgs e)
         {

@@ -23,19 +23,6 @@ namespace iRacingSimulator
         public static readonly int DefaultTrackUsage = (int)TrackUsageTypes.ModeratelyLow;
         public static readonly bool DefaultMarbleCleanup = true;
 
-        public int WeatherType;
-        public float AirDensity;
-        public float AirPressure;
-        public float AirTemp; // C
-        public float FogLevel;
-        public float RelativeHumidity;
-        public int Skies;
-        public float TrackTemp; // C
-        public float WindDir;
-        public float WindVel; // m/s
-        public int TrackUsage;
-        public bool MarbleCleanup;
-
         public static readonly int MinTemperatureF = 65; // F
         public static readonly int MaxTemperatureF = 90; // F
         public static readonly int MaxWindSpeedMph = 30; // mph
@@ -43,28 +30,16 @@ namespace iRacingSimulator
         public static readonly int MaxTemperatureC = (int) TempToC(MaxTemperatureF);
         public static readonly int MaxWindSpeedKph = (int) WindToKph(MaxWindSpeedMph);
 
-
-        public void UpdateWeatherTelemetry(TelemetryInfo e)
-        {
-            this.WeatherType = e.WeatherType.Value;
-            this.AirDensity = e.AirDensity.Value;
-            this.AirPressure = e.AirPressure.Value;
-            this.AirTemp = e.AirTemp.Value;
-            this.FogLevel = e.FogLevel.Value;
-            this.RelativeHumidity = e.RelativeHumidity.Value;
-            this.Skies = e.Skies.Value;
-            this.TrackTemp = e.TrackTemp.Value;
-            this.WindDir = e.WindDir.Value;
-            this.WindVel = e.WindVel.Value;
-            this.TrackUsage = e.TrackUsage.Value;
-            this.MarbleCleanup = e.MarbleCleanup.Value;
-        }
-
-        ParseWeatherSessionData(SessionInfo e)
-        {
-
-        }
-
+        public static int WeatherType;
+        public static float AirDensity;
+        public static float AirPressure;
+        public static float AirTemp; // C
+        public static float FogLevel;
+        public static float RelativeHumidity;
+        public static string Skies;
+        public static float TrackTemp; // C
+        public static string WindDir;
+        public static float WindVel; // m/s
 
 
         /// <summary>
